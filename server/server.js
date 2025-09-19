@@ -12,8 +12,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://adgpts.vercel.app", // your deployed frontend
-  "https://adgpt-d0f2lh87u-adzs-projects-49f888a0.vercel.app" // your deployed frontend
+  "https://adgpts.vercel.app", // your deployed backend
 ];
 
 app.use(
