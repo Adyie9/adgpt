@@ -12,7 +12,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://your-deployed-url.com"   // 👈 replace with your actual deployed frontend URL
+  "https://adgpts.vercel.app/"   // 👈 replace with your actual deployed frontend URL
 ];
 
 app.use(
