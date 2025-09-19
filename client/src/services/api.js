@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://adgpt-backend.onrender.com", // ✅ only /api
+  baseURL: "http://localhost:5000/api", // ✅ only /api
   withCredentials: true
 });
 
