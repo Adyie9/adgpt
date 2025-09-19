@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://adgpts.vercel.app/login", // ✅ only /api
+  baseURL: "https://adgpts.vercel.app/api", // ✅ only /api
   withCredentials: true
 });
 
