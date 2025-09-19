@@ -5,6 +5,15 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const auth = require("../middleware/auth");
 
+// ✅ Handle preflight requests for CORS
+router.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://adgpt-d0f2lh87u-adzs-projects-49f888a0.vercel.app");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(200);
+});
+
 // ================== Register ==================
 router.post("/register", async (req, res) => {
   try {
@@ -44,17 +53,14 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 3600000
+      secure: process.env.NODE_ENV === "production", // secure in prod
+      sameSite: "none", // allow cross-site cookies
+      maxAge: 3600000,
     });
 
     res.json({
       message: "Login successful",
-      user: {
-        id: user._id,
-        email: user.email
-      }
+      user: { id: user._id, email: user.email }
     });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -68,7 +74,11 @@ router.get("/dashboard", auth, (req, res) => {
 
 // ================== Logout ==================
 router.post("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+  });
   res.json({ message: "Logged out successfully" });
 });
 
