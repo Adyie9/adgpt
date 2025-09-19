@@ -8,11 +8,12 @@ const { GoogleGenAI } = require("@google/genai");
 dotenv.config();
 const app = express();
 
-// ✅ Allowed origins (local + deployed)
+// ✅ Allowed origins (local + deployed frontend)
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://adgpts.vercel.app/"   // 👈 replace with your actual deployed frontend URL
+  "https://adgpts.vercel.app", // your deployed frontend
+  "https://adgpt-d0f2lh87u-adzs-projects-49f888a0.vercel.app" // your deployed frontend
 ];
 
 app.use(
@@ -24,11 +25,12 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: ["GET", "POST"],   // 👈 allowed methods
-    credentials: true           // 👈 allow cookies/authorization headers
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true // allow cookies and auth headers
   })
 );
 
+// ✅ Parse JSON & cookies
 app.use(express.json());
 app.use(cookieParser());
 
@@ -38,7 +40,7 @@ app.use("/uploads", express.static("uploads"));
 // ✅ Connect MongoDB
 connectDB();
 
-// ✅ Routes
+// ================== Routes ==================
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/conversations", require("./routes/conversationRoutes"));
 
@@ -49,7 +51,7 @@ if (!process.env.GENAI_API_KEY) {
 }
 const ai = new GoogleGenAI({ apiKey: process.env.GENAI_API_KEY });
 
-// ✅ Send message
+// ✅ Send message route
 app.use("/api/send-message", require("./routes/sendMessage")(ai));
 
 // ✅ Health check
