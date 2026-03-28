@@ -18,7 +18,7 @@ export default function Chat({ onLogout }) {
 
   const fetchConvos = useCallback(async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/conversations`, {
         credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to fetch conversations");
@@ -74,7 +74,7 @@ export default function Chat({ onLogout }) {
       formData.append("message", input);
       if (file) formData.append("file", file);
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/send-message`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/send-message`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -111,7 +111,7 @@ export default function Chat({ onLogout }) {
 
   const addNewChat = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/conversations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -126,7 +126,7 @@ export default function Chat({ onLogout }) {
 
   const deleteChat = async (id) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/conversations/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

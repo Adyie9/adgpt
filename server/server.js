@@ -10,9 +10,7 @@ const app = express();
 
 // ✅ Allowed origins (local + deployed frontend)
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "https://adgpts.vercel.app", // your deployed backend
+  process.env.FRONTEND_URI
 ];
 
 app.use(

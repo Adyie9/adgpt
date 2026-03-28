@@ -5,15 +5,6 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const auth = require("../middleware/auth");
 
-// ✅ Handle preflight requests for CORS
-router.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://adgpt-d0f2lh87u-adzs-projects-49f888a0.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
-
 // ================== Register ==================
 router.post("/register", async (req, res) => {
   try {
@@ -53,8 +44,8 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // secure in prod
-      sameSite: "none", // allow cross-site cookies
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // lax in dev, none in prod
       maxAge: 3600000,
     });
 
@@ -77,7 +68,7 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.json({ message: "Logged out successfully" });
 });
