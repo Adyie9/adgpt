@@ -8,20 +8,9 @@ const { GoogleGenAI } = require("@google/genai");
 dotenv.config();
 const app = express();
 
-// ✅ Allowed origins (local + deployed frontend)
-const allowedOrigins = [
-  process.env.FRONTEND_URI
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true, // ✅ Allow all origins
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true // allow cookies and auth headers
   })
